@@ -115,12 +115,12 @@
 
 @layer base {
   * {
-    border-color: var(--color-border);
+    border-color: var(--border);
   }
 
   body {
     background-color: var(--color-background);
-    color: var(--color-foreground);
+    color: var(--foreground);
   }
 }
 
@@ -134,14 +134,14 @@
   font-size: 0.68rem;
   padding: 0.15rem 0.5rem;
   border-radius: 0.3rem;
-  border: 1px solid var(--color-border);
-  color: var(--color-muted-foreground);
-  background: var(--color-muted);
+  border: 1px solid var(--border);
+  color: var(--muted-foreground);
+  background: var(--muted);
 }
 
 @utility card-hover {
   transition: transform .35s cubic-bezier(.2,.8,.2,1), border-color .35s, box-shadow .35s;
-  &:hover { transform: translateY(-4px); border-color: var(--color-foreground); box-shadow: 0 18px 40px -20px color-mix(in oklab, var(--color-foreground) 35%, transparent); }
+  &:hover { transform: translateY(-4px); border-color: var(--foreground); box-shadow: 0 18px 40px -20px color-mix(in oklab, var(--foreground) 35%, transparent); }
 }
 
 @utility link-underline {
