@@ -1,33 +1,36 @@
-# Portfólio Juan Silva Ribeiro — com animações
+# Portfólio Juan Ribeiro — recriação do portfólio do vídeo
 
-Landing page de portfólio em uma única página, misturando o briefing (dark mode tech) com o vídeo de inspiração (minimalista, editorial, seções numeradas, seção "no GitHub").
+Recriar fielmente o estilo do vídeo (monocromático, editorial, minimalista, alternando claro/escuro, partículas sutis, título da seção à esquerda com ícone de cubo e conteúdo à direita), usando os dados do seu perfil em PDF. Tudo em letras minúsculas como no original.
 
-## Seções
-1. **Navbar fixa** — logo "juan ribeiro", links (sobre, o que eu faço, projetos, github, contato), botão "Fale Comigo". Fica com fundo desfocado ao rolar.
-2. **Hero** — "olá, eu sou Juan Silva Ribeiro", título "Transformando ideias em experiências digitais", subtítulo, botões "Ver Projetos" e "Baixar Currículo", frase manuscrita "construindo minha jornada na tecnologia". Texto surge palavra por palavra, efeito de digitação em monospace, fundo com grade de pontos/partículas sutil.
-3. **Fluxo de trabalho** — diagrama ideia → design → código → teste → deploy, com linha tracejada desenhando-se ao rolar.
-4. **O que eu faço** — 6 cards (Front-End, UI/UX, Responsivo, Performance, Integração de APIs, Git/versionamento) com tags monospace; entram em cascata.
-5. **Projetos** — grade de cards clicáveis com prévia visual estilizada, nome, tags (React, Tailwind, TypeScript) e ícone de link externo; inclinação 3D e brilho que segue o mouse.
-6. **No GitHub** — cards de repositórios carregados ao vivo do perfil `juansilvarb16` (nome, descrição, linguagem, estrelas), com fallback se a API falhar; link "todos os repositórios".
-7. **Sobre / Contato** — texto breve, links para LinkedIn, GitHub e e-mail.
-8. **Footer** — copyright e redes.
+## Estrutura (igual ao vídeo)
+1. **Navbar fixa** — "juan ribeiro" com ícone, links: sobre, o que eu faço, experiência, projetos, stack, formação, contato; botão PT/EN e alternância claro/escuro.
+2. **Hero** — "olá, eu sou juan ribeiro", "estudante de engenharia de software · dados, automação & back-end", frase manuscrita "construindo minha jornada na tecnologia", botões "ver projetos", GitHub, LinkedIn. Espaço para sua foto em preto e branco (placeholder até você enviar).
+3. **Como o dado percorre meu trabalho** — diagrama animado: fonte → ingestão → transformação (bronze/silver/gold) → qualidade → consumo.
+4. **Sobre** — resumo do PDF (ETEC Jogos Digitais → FIAP Eng. Software, Vivo, foco em dados) + coluna lateral com formação.
+5. **O que eu faço** — 6 cards: Python & análise de dados (Pandas, PySpark), Engenharia de dados (Databricks), SQL & modelagem, Automações (Python/JS), Desenvolvimento JavaScript, Processos & organização.
+6. **Experiência** — linha do tempo: Vivo (Administrativo, mai/2026–atual) e Costa Cruzeiros (Auxiliar Jurídico, fev–mai/2026) com os tópicos do PDF.
+7. **Projetos** — cards com prévia visual, categoria, nome, descrição e tags (exemplos de automação Python/JS e dados — você troca pelos reais).
+8. **Stack** — tabela por categoria: linguagens (Python, SQL, JavaScript), dados (Pandas, PySpark, Databricks), ferramentas (Excel, Git, GitHub).
+9. **Formação** — FIAP (2026–2030), ETEC (2023–2025).
+10. **No GitHub** — repositórios ao vivo de `juansilvarb16` (nome, descrição, linguagem, atualização), link "todos os repositórios".
+11. **Contato / rodapé** — LinkedIn, GitHub, e-mail.
 
 ## Animações
-- Revelação ao rolar (fade + subida) em todas as seções
-- Contador/progresso de rolagem no topo
-- Cursor com brilho seguindo o mouse (desktop)
-- Hover magnético nos botões, sublinhado animado nos links
-- Respeita "reduzir movimento" do sistema
+- Seções surgindo ao rolar (fade + subida), cards em cascata
+- Hero com brilho que segue o mouse e texto revelado letra a letra
+- Linha do diagrama e da linha do tempo desenhando-se ao rolar
+- Barra de progresso de rolagem no topo, partículas flutuantes no fundo
+- Cards com elevação e borda destacada no hover
+- Respeita "reduzir movimento"
 
 ## Visual
-Fundo #0B0F19, cards #161E2E, texto #F9FAFB / #9CA3AF, destaque #6366F1. Fontes: Space Grotesk (títulos), DM Sans (corpo), JetBrains Mono (detalhes), Caveat (frase manuscrita). Totalmente responsivo.
+Preto/branco puro com cinzas; fontes Inter Tight (texto), JetBrains Mono (tags), Caveat (manuscrito). Responsivo.
 
 ## Observações
-- Textos de "Sobre", projetos de destaque e link do currículo serão de exemplo — você me envia os reais depois.
-- Não consigo ler o LinkedIn automaticamente; usarei apenas o link do perfil.
+- Foto, projetos de destaque e e-mail serão provisórios até você enviar os reais.
 
 ## Detalhes técnicos
-- `src/routes/index.tsx` substituído; componentes em `src/components/portfolio/*`.
-- `framer-motion` para animações; tokens no `src/styles.css`; fontes via `<link>` no `__root.tsx`.
-- Repositórios via `https://api.github.com/users/juansilvarb16/repos?sort=updated` com React Query no cliente.
+- `src/routes/index.tsx` reescrito; seções em `src/components/portfolio/*`; dados em `src/data/profile.ts`.
+- `framer-motion`; tokens em `src/styles.css` (claro e `.dark`); fontes via `<link>` no `__root.tsx`.
+- GitHub via API pública no cliente com React Query e fallback.
 - head() com título/descrição/og próprios.
