@@ -66,12 +66,12 @@ export function Hero() {
     >
       <Particles count={36} />
       {/* camadas de profundidade */}
-      <motion.div aria-hidden style={fine ? { x: l1x, y: l1y } : undefined} className="pointer-events-none absolute -left-24 top-24 h-72 w-72 rounded-full border border-border" />
-      <motion.div aria-hidden style={fine ? { x: l2x, y: l2y } : undefined} className="pointer-events-none absolute right-[8%] top-16 h-40 w-40 rounded-full border border-dashed border-line opacity-60" />
-      <motion.div aria-hidden style={fine ? { x: l3x, y: l3y } : undefined} className="pointer-events-none absolute bottom-10 left-[42%] font-mono text-[10px] text-muted-foreground/60">{"{ dados: confiáveis }"}</motion.div>
+      <motion.div aria-hidden style={fine ? { x: l1x, y: l1y } : {}} className="pointer-events-none absolute -left-24 top-24 h-72 w-72 rounded-full border border-border" />
+      <motion.div aria-hidden style={fine ? { x: l2x, y: l2y } : {}} className="pointer-events-none absolute right-[8%] top-16 h-40 w-40 rounded-full border border-dashed border-line opacity-60" />
+      <motion.div aria-hidden style={fine ? { x: l3x, y: l3y } : {}} className="pointer-events-none absolute bottom-10 left-[42%] font-mono text-[10px] text-muted-foreground/60">{"{ dados: confiáveis }"}</motion.div>
       <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-6 md:grid-cols-[1.3fr_1fr]">
         <motion.div
-          style={fine ? { x: cardX, y: cardY } : undefined}
+          style={fine ? { x: cardX, y: cardY } : {}}
           className="relative overflow-hidden rounded-2xl border border-border bg-card p-8 md:p-12"
           onMouseMove={(e) => {
             const r = e.currentTarget.getBoundingClientRect();
@@ -105,7 +105,7 @@ export function Hero() {
           </motion.div>
         </motion.div>
         <motion.div initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5, duration: 1 }} className="relative mx-auto w-full max-w-sm [perspective:1200px]">
-          <motion.div style={fine ? { rotateX: stageRX, rotateY: stageRY } : undefined} className="relative aspect-square [transform-style:preserve-3d]">
+          <motion.div style={fine ? { rotateX: stageRX, rotateY: stageRY } : {}} className="relative aspect-square [transform-style:preserve-3d]">
             {/* anel orbital */}
             <div aria-hidden className="absolute -inset-6 hidden rounded-full border border-dashed border-line opacity-50 md:block" style={{ transform: "translateZ(-60px)" }}>
               <div className="orbit absolute inset-0"><span className="absolute -top-1 left-1/2 h-2 w-2 rounded-full bg-foreground" /></div>
