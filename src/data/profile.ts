@@ -6,7 +6,7 @@ export const profile = {
   github: "https://github.com/juansilvarb16",
   githubUser: "juansilvarb16",
   linkedin: "https://www.linkedin.com/in/juansilvarb16",
-  email: "contato@juanribeiro.dev",
+  email: "juansilvarb16@gmail.com",
   location: "são paulo, brasil",
 };
 
@@ -61,9 +61,9 @@ export const experience = [
 ];
 
 export const projects = [
-  { kind: "automação · python", name: "conciliação automática", desc: "script que cruza planilhas de vendas e estoque, aponta divergências e gera relatório diário.", tags: ["python", "pandas", "excel"], preview: "bars" },
-  { kind: "dados · databricks", name: "pipeline medallion", desc: "estudo de pipeline bronze/silver/gold com pyspark, validações e tabelas prontas para análise.", tags: ["pyspark", "databricks", "sql"], preview: "layers" },
-  { kind: "web · javascript", name: "painel de estoque", desc: "ferramenta web para conferência e rastreabilidade de produtos, com busca e filtros.", tags: ["javascript", "html", "css"], preview: "grid" },
+  { kind: "dados · satélite", name: "ocean sentinel", desc: "plataforma inteligente de monitoramento de plástico oceânico utilizando dados de satélites.", tags: ["dados", "satélite", "global solution 2026"], preview: "layers", url: "https://github.com/juansilvarb16/Ocean-Sentinel-GS2026" },
+  { kind: "web · api", name: "wbdev5 — consumo de api", desc: "atividade de desenvolvimento web consumindo uma api externa e exibindo os dados na interface.", tags: ["javascript", "api", "fetch"], preview: "grid", url: "https://github.com/juansilvarb16/wbdev5" },
+  { kind: "automação · python", name: "conciliação automática", desc: "script que cruza planilhas de vendas e estoque, aponta divergências e gera relatório diário.", tags: ["python", "pandas", "excel"], preview: "bars", url: "https://github.com/juansilvarb16" },
 ];
 
 export const stack = [

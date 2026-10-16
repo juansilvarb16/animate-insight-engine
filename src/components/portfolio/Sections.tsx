@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowUpRight, Box, Github, Linkedin, Mail, Star } from "lucide-react";
 import { about, education, experience, profile, projects, services, stack } from "@/data/profile";
-import { Reveal, Section } from "./primitives";
+import { Reveal, Section, TiltCard } from "./primitives";
 
 export function About() {
   return (
@@ -109,7 +109,8 @@ export function Projects() {
       <div className="grid gap-5 md:grid-cols-3">
         {projects.map((p, i) => (
           <Reveal key={p.name} delay={i * 0.12}>
-            <a href={profile.github} target="_blank" rel="noreferrer" className="card-hover group block h-full overflow-hidden rounded-xl border border-border bg-card">
+            <TiltCard className="rounded-xl">
+            <a href={p.url} target="_blank" rel="noreferrer" className="group block h-full overflow-hidden rounded-xl border border-border bg-card transition-shadow hover:shadow-2xl">
               <div className="h-36 bg-primary transition-transform duration-500 group-hover:scale-[1.03]"><Preview type={p.preview} /></div>
               <div className="p-5">
                 <p className="font-mono text-[10px] text-muted-foreground">{p.kind}</p>
@@ -118,6 +119,7 @@ export function Projects() {
                 <div className="mt-4 flex flex-wrap gap-1.5">{p.tags.map((t) => <span key={t} className="tag">{t}</span>)}</div>
               </div>
             </a>
+            </TiltCard>
           </Reveal>
         ))}
       </div>

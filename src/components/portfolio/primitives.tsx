@@ -50,3 +50,45 @@ export function Section({ id, title, subtitle, dark, children }: { id: string; t
     </section>
   );
 }
+
+export function useFinePointer() {
+  const [fine, setFine] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
+    const on = () => setFine(mq.matches);
+    on();
+    mq.addEventListener("change", on);
+    return () => mq.removeEventListener("change", on);
+  }, []);
+  return fine;
+}
+
+export function TiltCard({ children, className, max = 10 }: { children: ReactNode; className?: string; max?: number }) {
+  const fine = useFinePointer();
+  const [s, setS] = useState({ rx: 0, ry: 0, x: 50, y: 50, on: false });
+  return (
+    <div className="h-full [perspective:1000px]">
+      <div
+        className={`relative h-full transition-transform duration-200 ease-out [transform-style:preserve-3d] ${className ?? ""}`}
+        style={fine ? { transform: `rotateX(${s.rx}deg) rotateY(${s.ry}deg) ${s.on ? "translateZ(8px)" : ""}` } : undefined}
+        onMouseMove={(e) => {
+          if (!fine) return;
+          const r = e.currentTarget.getBoundingClientRect();
+          const px = (e.clientX - r.left) / r.width;
+          const py = (e.clientY - r.top) / r.height;
+          setS({ rx: (0.5 - py) * max * 2, ry: (px - 0.5) * max * 2, x: px * 100, y: py * 100, on: true });
+        }}
+        onMouseLeave={() => setS({ rx: 0, ry: 0, x: 50, y: 50, on: false })}
+      >
+        {children}
+        {fine && (
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-0 rounded-[inherit] transition-opacity duration-300"
+            style={{ opacity: s.on ? 1 : 0, background: `radial-gradient(360px circle at ${s.x}% ${s.y}%, var(--spot), transparent 60%)` }}
+          />
+        )}
+      </div>
+    </div>
+  );
+}
