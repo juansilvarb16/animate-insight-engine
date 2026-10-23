@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Box } from "lucide-react";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 export function Reveal({ children, delay = 0, className }: { children: ReactNode; delay?: number; className?: string }) {
   const reduce = useReducedMotion();
@@ -17,29 +17,10 @@ export function Reveal({ children, delay = 0, className }: { children: ReactNode
   );
 }
 
-export function Particles({ count = 24 }: { count?: number }) {
-  const [dots, setDots] = useState<{ l: number; s: number; d: number; dl: number }[]>([]);
-  useEffect(() => {
-    setDots(Array.from({ length: count }, () => ({ l: Math.random() * 100, s: 1 + Math.random() * 2, d: 14 + Math.random() * 18, dl: -Math.random() * 30 })));
-  }, [count]);
-  return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
-      {dots.map((p, i) => (
-        <span
-          key={i}
-          className="particle absolute bottom-0 rounded-full bg-foreground"
-          style={{ left: `${p.l}%`, width: p.s, height: p.s, animationDuration: `${p.d}s`, animationDelay: `${p.dl}s` }}
-        />
-      ))}
-    </div>
-  );
-}
-
 export function Section({ id, title, subtitle, dark, children }: { id: string; title: string; subtitle?: string; dark?: boolean; children: ReactNode }) {
   return (
     <section id={id} className={`${dark ? "dark" : ""} relative scroll-mt-16 bg-background text-foreground`}>
-      <Particles count={dark ? 30 : 14} />
-      <div className="relative mx-auto grid max-w-6xl gap-10 px-6 py-24 md:grid-cols-[220px_1fr] md:py-32">
+      <div className="relative mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-[220px_1fr] md:py-24">
         <Reveal>
           <Box className="mb-3 h-5 w-5 text-muted-foreground" strokeWidth={1.5} />
           <h2 className="text-3xl font-semibold tracking-tight">{title}</h2>
@@ -51,44 +32,41 @@ export function Section({ id, title, subtitle, dark, children }: { id: string; t
   );
 }
 
-export function useFinePointer() {
-  const [fine, setFine] = useState(false);
+/**
+ * Parallax leve via scroll: desloca o elemento na vertical (máx. `max` px)
+ * conforme sua posição na viewport. Desativado em telas ≤768px e com
+ * prefers-reduced-motion. Usa rAF + listener passive e translate3d.
+ */
+export function Parallax({ children, speed = 0.08, max = 40, className }: { children: ReactNode; speed?: number; max?: number; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const mq = window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
-    const on = () => setFine(mq.matches);
-    on();
-    mq.addEventListener("change", on);
-    return () => mq.removeEventListener("change", on);
-  }, []);
-  return fine;
-}
-
-export function TiltCard({ children, className, max = 10 }: { children: ReactNode; className?: string; max?: number }) {
-  const fine = useFinePointer();
-  const [s, setS] = useState({ rx: 0, ry: 0, x: 50, y: 50, on: false });
+    const el = ref.current;
+    if (!el) return;
+    const mq = window.matchMedia("(min-width: 769px) and (prefers-reduced-motion: no-preference)");
+    if (!mq.matches) return;
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const r = el.getBoundingClientRect();
+      const center = r.top + r.height / 2 - window.innerHeight / 2;
+      const y = Math.max(-max, Math.min(max, -center * speed));
+      el.style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`;
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [speed, max]);
   return (
-    <div className="h-full [perspective:1000px]">
-      <div
-        className={`relative h-full transition-transform duration-200 ease-out [transform-style:preserve-3d] ${className ?? ""}`}
-        style={fine ? { transform: `rotateX(${s.rx}deg) rotateY(${s.ry}deg) ${s.on ? "translateZ(8px)" : ""}` } : undefined}
-        onMouseMove={(e) => {
-          if (!fine) return;
-          const r = e.currentTarget.getBoundingClientRect();
-          const px = (e.clientX - r.left) / r.width;
-          const py = (e.clientY - r.top) / r.height;
-          setS({ rx: (0.5 - py) * max * 2, ry: (px - 0.5) * max * 2, x: px * 100, y: py * 100, on: true });
-        }}
-        onMouseLeave={() => setS({ rx: 0, ry: 0, x: 50, y: 50, on: false })}
-      >
-        {children}
-        {fine && (
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-[inherit] transition-opacity duration-300"
-            style={{ opacity: s.on ? 1 : 0, background: `radial-gradient(360px circle at ${s.x}% ${s.y}%, var(--spot), transparent 60%)` }}
-          />
-        )}
-      </div>
+    <div ref={ref} className={className} style={{ willChange: "transform" }}>
+      {children}
     </div>
   );
 }

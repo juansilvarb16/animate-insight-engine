@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { ArrowUpRight, Box, Github, Linkedin, Mail, Star } from "lucide-react";
-import { about, education, experience, profile, projects, services, stack } from "@/data/profile";
-import { Reveal, Section, TiltCard } from "./primitives";
+import { about, certifications, education, experience, profile, projects, services, stack } from "@/data/profile";
+import { Reveal, Section } from "./primitives";
 
 export function About() {
   return (
@@ -109,7 +109,6 @@ export function Projects() {
       <div className="grid gap-5 md:grid-cols-3">
         {projects.map((p, i) => (
           <Reveal key={p.name} delay={i * 0.12}>
-            <TiltCard className="rounded-xl">
             <a href={p.url} target="_blank" rel="noreferrer" className="group block h-full overflow-hidden rounded-xl border border-border bg-card transition-shadow hover:shadow-2xl">
               <div className="h-36 bg-primary transition-transform duration-500 group-hover:scale-[1.03]"><Preview type={p.preview} /></div>
               <div className="p-5">
@@ -119,7 +118,6 @@ export function Projects() {
                 <div className="mt-4 flex flex-wrap gap-1.5">{p.tags.map((t) => <span key={t} className="tag">{t}</span>)}</div>
               </div>
             </a>
-            </TiltCard>
           </Reveal>
         ))}
       </div>
@@ -155,6 +153,12 @@ export function Education() {
           </Reveal>
         ))}
       </div>
+      <Reveal delay={0.2} className="mt-8">
+        <p className="font-mono text-[11px] text-muted-foreground">certificações</p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {certifications.map((c) => <span key={c} className="tag">{c}</span>)}
+        </div>
+      </Reveal>
     </Section>
   );
 }
@@ -175,7 +179,7 @@ export function GithubRepos() {
     queryFn: async () => {
       const r = await fetch(`https://api.github.com/users/${profile.githubUser}/repos?sort=pushed&per_page=12`);
       if (!r.ok) throw new Error(String(r.status));
-      return ((await r.json()) as Repo[]).filter((x) => !x.fork).slice(0, 6);
+      return ((await r.json()) as Repo[]).filter((x) => !x.fork && x.name !== profile.githubUser).slice(0, 6);
     },
     staleTime: 5 * 60_000,
   });
