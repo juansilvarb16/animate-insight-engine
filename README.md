@@ -24,3 +24,12 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+
+## Deploy on Vercel
+
+The build target is detected automatically (Nitro picks the Vercel preset), so no `vercel.json` or preset pinning is needed.
+
+1. Connect the repository to Vercel and pick the branch you deploy from.
+2. Build command: `npm run build`. Node.js: 22 (pinned in `.nvmrc`). No output directory setting is required.
+3. Environment variables: this app reads none, so nothing to add.
+4. Deploy. Every push to that branch triggers a new deployment.
